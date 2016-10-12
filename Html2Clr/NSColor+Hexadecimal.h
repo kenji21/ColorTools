@@ -10,4 +10,5 @@
 
 @interface NSColor (Hexadecimal)
 + (NSColor *)colorWithHexString:(NSString *)hexString;
+-(NSString *)hexadecimalValueOfAnNSColor;
 @end

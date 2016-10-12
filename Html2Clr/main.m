@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "RPCHexColorList.h"
 
-
-
 int main(int argc, const char * argv[])
 {
 
@@ -61,6 +59,10 @@ int main(int argc, const char * argv[])
             NSLog(@"Colorlist written to: %@", clrFile);
             [ase.colors writeToFile:clrFile];
         }
+        //NSColorList *colorList = [NSColorList colorListNamed:ase.colors.name];
+        //NSDistributedNotificationCenter *center = [NSDistributedNotificationCenter defaultCenter];
+        //[center postNotificationName:NSColorListDidChangeNotification object:colorList];
+        //[center postNotificationName:NSColorListDidChangeNotification object:ase.colors.name];
     }
     return 0;
 

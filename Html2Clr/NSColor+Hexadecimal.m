@@ -55,7 +55,7 @@
                        @"of the form #RBG, #ARGB, #RRGGBB, or #AARRGGBB",
                        hexString];
   }
-  return [NSColor colorWithRed:red green:green blue:blue alpha:alpha];
+  return [NSColor colorWithSRGBRed:red green:green blue:blue alpha:alpha];
 }
 
 + (CGFloat)colorComponentFrom:(NSString *)string
@@ -67,7 +67,37 @@
                   : [NSString stringWithFormat:@"%@%@", substring, substring];
   unsigned hexComponent;
   [[NSScanner scannerWithString:fullHex] scanHexInt:&hexComponent];
-  return hexComponent / 255.0;
+  return ((float)hexComponent) / 255.0;
+}
+
+-(NSString *)hexadecimalValueOfAnNSColor
+{
+    CGFloat redFloatValue, greenFloatValue, blueFloatValue;
+    int redIntValue, greenIntValue, blueIntValue;
+    NSString *redHexValue, *greenHexValue, *blueHexValue;
+    
+    //Convert the NSColor to the RGB color space before we can access its components
+    NSColor *convertedColor=[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    
+    if(convertedColor)
+    {
+        // Get the red, green, and blue components of the color
+        [convertedColor getRed:&redFloatValue green:&greenFloatValue blue:&blueFloatValue alpha:NULL];
+        
+        // Convert the components to numbers (unsigned decimal integer) between 0 and 255
+        redIntValue = round(redFloatValue*255.f);
+        greenIntValue = round(greenFloatValue*255.f);
+        blueIntValue = round(blueFloatValue*255.f);
+        
+        // Convert the numbers to hex strings
+        redHexValue=[NSString stringWithFormat:@"%02x", redIntValue];
+        greenHexValue=[NSString stringWithFormat:@"%02x", greenIntValue];
+        blueHexValue=[NSString stringWithFormat:@"%02x", blueIntValue];
+        
+        // Concatenate the red, green, and blue components' hex strings together with a "#"
+        return [NSString stringWithFormat:@"#%@%@%@", redHexValue, greenHexValue, blueHexValue];
+    }
+    return nil;
 }
 
 @end
